@@ -20,7 +20,7 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
      */
     @Override
     public boolean isApplicable(OrderItem item) {
-        return true;
+        return productId.equals(item.getProduct().getId());
     }
 
     /**
@@ -30,6 +30,12 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
      */
     @Override
     public double apply(OrderItem item) {
-        return 0.0;
+        double total = 0.0;
+        if (isApplicable(item)) {
+            int quotient = item.getQuantity() / minQuantity;
+            int remainder = item.getQuantity() % minQuantity;
+            total = (quotient * fixedPrice) + (remainder * item.getProduct().getPrice());
+        }
+        return total;
     }
 }

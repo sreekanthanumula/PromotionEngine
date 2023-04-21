@@ -19,7 +19,15 @@ public class PromotionEngineService {
      * @return total cost after applying the promotions
      */
     public double apply(Order order) {
-        return order.getTotalPrice();
+        double total = 0.0;
+        for (OrderItem item : order.getItems()) {
+            if (promotion != null && promotion.isApplicable(item)) {
+                total += promotion.apply(item);
+            } else {
+                total += (item.getQuantity() * item.getProduct().getPrice());
+            }
+        }
+        return total;
     }
 
     public void setPromotion(IPromotion promotion) {

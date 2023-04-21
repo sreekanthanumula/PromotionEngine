@@ -80,6 +80,7 @@ public class PromotionEngineServiceTest {
     // Tests with quantity and no promotions
     @Test
     public void buyProduct3ATest() {
+        service.setPromotion(null);
         Order order = new Order();
         order.addItem(new OrderItem(productA, 3));
 
@@ -91,6 +92,7 @@ public class PromotionEngineServiceTest {
 
     @Test
     public void buyProduct5ABTest() {
+        service.setPromotion(null);
         Order order = new Order();
         order.addItem(new OrderItem(productA, 5));
         order.addItem(new OrderItem(productB, 5));
