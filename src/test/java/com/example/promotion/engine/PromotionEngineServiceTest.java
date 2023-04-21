@@ -1,5 +1,7 @@
 package com.example.promotion.engine;
 
+import com.example.promotion.BuyNItemsForFixedPricePromotion;
+import com.example.promotion.IPromotion;
 import com.example.promotion.entity.Order;
 import com.example.promotion.entity.OrderItem;
 import com.example.promotion.entity.Product;
@@ -123,6 +125,24 @@ public class PromotionEngineServiceTest {
         double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void buy5AwithbuyNItemsPromotionTest() {
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 5));
+        order.addItem(new OrderItem(productB, 3));
+        order.addItem(new OrderItem(productC, 4));
+
+        IPromotion buy3AFor120 = new BuyNItemsForFixedPricePromotion("A", 3, 120);
+        service.setPromotion(buy3AFor120);
+
+
+        double expectedTotal = 120 +  (productA.getPrice() * 2) + (productB.getPrice() * 3) + (productC.getPrice() * 4);
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+
     }
 
 }
