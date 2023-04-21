@@ -1,5 +1,6 @@
 package com.example.promotion;
 
+import com.example.promotion.entity.Order;
 import com.example.promotion.entity.OrderItem;
 
 public class BuyTwoItemsForFixedPricePromotion implements IPromotion {
@@ -17,22 +18,55 @@ public class BuyTwoItemsForFixedPricePromotion implements IPromotion {
     /**
      * API to verify the promotion applicable to specific order item
      * Todo provide the implementation
-     * @param item
+     * @param order
      * @return
      */
     @Override
-    public boolean isApplicable(OrderItem item) {
-        return false;
+    public boolean isApplicable(Order order) {
+        int item1Count = 0;
+        int item2Count = 0;
+        for (OrderItem item : order.getItems()) {
+            if (item.getProduct().getId().equals(product1)) {
+                item1Count += item.getQuantity();
+            } else if (item.getProduct().getId().equals(product2)) {
+                item2Count += item.getQuantity();
+            }
+        }
+        return item1Count >= 1 && item2Count >= 1;
     }
 
     /**
      * API to apply the promotion to order item.
-     * Todo provide the implementation
-     * @param item
+     * @param order
      * @return
      */
     @Override
-    public void apply(OrderItem item) {
+    public void apply(Order order) {
+        if (isApplicable(order)) {
+            int item1Count = order.getItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(product1))
+                    .findFirst().get().getQuantity();
+
+            int item2Count = order.getItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(product2))
+                    .findFirst().get().getQuantity();
+
+
+            int minCount = Math.min(item1Count, item2Count);
+            double regularPrice = minCount * order.getItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(product1))
+                    .findFirst().get().getProduct().getPrice()
+                    + minCount * order.getItems().stream()
+                    .filter(item -> item.getProduct().getId().equals(product2))
+                    .findFirst().get().getProduct().getPrice();
+            double totalDiscount =  regularPrice - (minCount * fixedPrice);
+            for (OrderItem item : order.getItems()) {
+                if (item.getProduct().getId().equals(product1) ||
+                        item.getProduct().getId().equals(product2)) {
+                   item.setDiscount(totalDiscount/2);
+                }
+            }
+        }
 
     }
 }

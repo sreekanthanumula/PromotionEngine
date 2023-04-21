@@ -14,16 +14,12 @@ public class PromotionEngineService {
     private IPromotion promotion;
 
     /**
-     * @param order
-     * Basic implementation to calculate the total cost with no promotions
+     * @param order Basic implementation to calculate the total cost with no promotions
      * @return total cost after applying the promotions
      */
     public double apply(Order order) {
-        double total = 0.0;
-        for (OrderItem item : order.getItems()) {
-            if (promotion != null && promotion.isApplicable(item)) {
-                promotion.apply(item);
-            }
+        if (promotion != null && promotion.isApplicable(order)) {
+            promotion.apply(order);
         }
         return order.getTotalPrice();
     }

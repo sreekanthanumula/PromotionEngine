@@ -1,6 +1,7 @@
 package com.example.promotion;
 
 import com.example.promotion.engine.PromotionEngineApplication;
+import com.example.promotion.entity.Order;
 import com.example.promotion.entity.OrderItem;
 import com.example.promotion.entity.Product;
 import org.junit.Test;
@@ -23,46 +24,90 @@ public class BuyTwoItemsForFixedPricePromotionTest {
     @Test
     public void setPromotionABwithBTest() {
         promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
-        OrderItem item = new OrderItem(productB);
+        Order order = new Order();
+        order.addItem(new OrderItem(productB));
 
-        assertFalse(promotion.isApplicable(item));
+        assertFalse(promotion.isApplicable(order));
     }
 
     @Test
     public void setPromotionAwithCTest() {
         promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
-        OrderItem item = new OrderItem(productC);
+        Order order = new Order();
+        order.addItem(new OrderItem(productC));
 
-        assertFalse(promotion.isApplicable(item));
+        assertFalse(promotion.isApplicable(order));
     }
 
     @Test
     public void setPromotionAwithATest() {
         promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
-        OrderItem item = new OrderItem(productA);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA));
 
-        assertTrue(promotion.isApplicable(item));
+        assertFalse(promotion.isApplicable(order));
     }
 
     @Test
     public void calculateTotalPromotionABwithATest() {
         promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
-        OrderItem item = new OrderItem(productA, 5);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 5));
 
-        double expected = (120 + item.getProduct().getPrice() * 2);
-        promotion.apply(item);
-        double actual = item.getPrice() - item.getDiscount();
+        double expected = (order.getItems().get(0).getProduct().getPrice() * 5);
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void calculateTotalPromotionABwithABTest() {
+        promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA));
+        order.addItem(new OrderItem(productB));
+
+        double expected = 70.0;
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void calculateTotalPromotionABwith3ABTest() {
+        promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 3));
+        order.addItem(new OrderItem(productB, 3));
+
+        double expected = 210.0;
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void calculateTotalPromotionABwith3A2BTest() {
+        promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 3));
+        order.addItem(new OrderItem(productB, 2));
+
+        double expected = 190.0;
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
         assertEquals(expected, actual);
     }
 
     @Test
     public void calculateTotalPromotionABwithCTest() {
         promotion = new BuyTwoItemsForFixedPricePromotion("A", "B", 70.0);
-        OrderItem item = new OrderItem(productB, 3);
+        Order order = new Order();
+        order.addItem(new OrderItem(productC, 3));
 
-        double expected = (item.getProduct().getPrice() * 3);
-        promotion.apply(item);
-        double actual = item.getPrice() - item.getDiscount();
+        double expected = (order.getItems().get(0).getProduct().getPrice() * 3);
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
         assertEquals(expected, actual);
     }
 }

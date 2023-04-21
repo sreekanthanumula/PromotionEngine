@@ -25,46 +25,56 @@ public class BuyNItemsForFixedPricePromotionTest {
     @Test
     public void setPromotionAwithBTest() {
         promotion = new BuyNItemsForFixedPricePromotion("A", 3, 120.0);
+        Order order = new Order();
         OrderItem item = new OrderItem(productB);
+        order.addItem(item);
 
-        assertFalse(promotion.isApplicable(item));
+        assertFalse(promotion.isApplicable(order));
     }
 
     @Test
     public void setPromotionAwithCTest() {
         promotion = new BuyNItemsForFixedPricePromotion("A", 3, 120.0);
+        Order order = new Order();
         OrderItem item = new OrderItem(productC);
+        order.addItem(item);
 
-        assertFalse(promotion.isApplicable(item));
+        assertFalse(promotion.isApplicable(order));
     }
 
     @Test
     public void setPromotionAwithATest() {
         promotion = new BuyNItemsForFixedPricePromotion("A", 3, 120.0);
+        Order order = new Order();
         OrderItem item = new OrderItem(productA);
+        order.addItem(item);
 
-        assertTrue(promotion.isApplicable(item));
+        assertTrue(promotion.isApplicable(order));
     }
 
     @Test
     public void calculateTotalPromotionAwithATest() {
         promotion = new BuyNItemsForFixedPricePromotion("A", 3, 120.0);
+        Order order = new Order();
         OrderItem item = new OrderItem(productA, 5);
+        order.addItem(item);
 
         double expected = (120 + item.getProduct().getPrice() * 2);
-        promotion.apply(item);
-        double actual = item.getPrice() - item.getDiscount();
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
         assertEquals(expected, actual);
     }
 
     @Test
     public void calculateTotalPromotionAwithBTest() {
         promotion = new BuyNItemsForFixedPricePromotion("A", 3, 120.0);
+        Order order = new Order();
         OrderItem item = new OrderItem(productB, 3);
+        order.addItem(item);
 
         double expected = (item.getProduct().getPrice() * 3);
-        promotion.apply(item);
-        double actual = item.getPrice() - item.getDiscount();
+        promotion.apply(order);
+        double actual = order.getTotalPrice();
         assertEquals(expected, actual);
     }
 }
