@@ -16,12 +16,6 @@ public class PromotionEngineService {
      * @return total cost after applying the promotions
      */
     public double apply(Order order) {
-
-
-        double total = 0.0;
-        for (OrderItem item : order.getItems()) {
-            total += item.getProduct().getPrice() * item.getQuantity();
-        }
-        return total;
+        return order.getTotalPrice();
     }
 }

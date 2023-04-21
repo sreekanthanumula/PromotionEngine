@@ -25,5 +25,13 @@ public class Order {
     public void clearItems() {
         items.clear();
     }
+
+    public double getTotalPrice() {
+        double total = 0.0;
+        for (OrderItem item : this.getItems()) {
+            total += item.getProduct().getPrice() * item.getQuantity();
+        }
+        return total;
+    }
 }
 
