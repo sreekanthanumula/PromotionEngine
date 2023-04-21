@@ -29,7 +29,7 @@ public class Order {
     public double getTotalPrice() {
         double total = 0.0;
         for (OrderItem item : this.getItems()) {
-            total += item.getProduct().getPrice() * item.getQuantity();
+            total += (item.getPrice() - item.getDiscount());
         }
         return total;
     }

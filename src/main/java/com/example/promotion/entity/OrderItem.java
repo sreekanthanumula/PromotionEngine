@@ -3,6 +3,8 @@ package com.example.promotion.entity;
 public class OrderItem {
     private Product product;
     private int quantity;
+    private double price;
+    private double discount = 0.0;
 
     public OrderItem(Product product, int quantity) {
         this.product = product;
@@ -22,6 +24,18 @@ public class OrderItem {
         this.quantity = quantity;
     }
 
+    public double getPrice() {
+        return quantity * this.product.getPrice();
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -29,5 +43,7 @@ public class OrderItem {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+
 
 }

@@ -5,6 +5,7 @@ import com.example.promotion.IPromotion;
 import com.example.promotion.entity.Order;
 import com.example.promotion.entity.OrderItem;
 import com.example.promotion.entity.Product;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,11 @@ public class PromotionEngineServiceTest {
     final Product productA = new Product("A", 50.0);
     final Product productB = new Product("B", 30.0);
     final Product productC = new Product("C", 20.0);
+
+    @Before
+    public void clearPromotions() {
+        service.setPromotion(null);
+    }
 
     // Tests with no promotions
     @Test
@@ -80,7 +86,6 @@ public class PromotionEngineServiceTest {
     // Tests with quantity and no promotions
     @Test
     public void buyProduct3ATest() {
-        service.setPromotion(null);
         Order order = new Order();
         order.addItem(new OrderItem(productA, 3));
 
@@ -92,7 +97,6 @@ public class PromotionEngineServiceTest {
 
     @Test
     public void buyProduct5ABTest() {
-        service.setPromotion(null);
         Order order = new Order();
         order.addItem(new OrderItem(productA, 5));
         order.addItem(new OrderItem(productB, 5));

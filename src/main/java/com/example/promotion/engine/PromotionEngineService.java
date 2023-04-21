@@ -22,12 +22,10 @@ public class PromotionEngineService {
         double total = 0.0;
         for (OrderItem item : order.getItems()) {
             if (promotion != null && promotion.isApplicable(item)) {
-                total += promotion.apply(item);
-            } else {
-                total += (item.getQuantity() * item.getProduct().getPrice());
+                promotion.apply(item);
             }
         }
-        return total;
+        return order.getTotalPrice();
     }
 
     public void setPromotion(IPromotion promotion) {

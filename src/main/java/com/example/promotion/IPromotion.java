@@ -15,5 +15,5 @@ public interface IPromotion {
      * @param item
      * @return
      */
-    double apply(OrderItem item);
+    void apply(OrderItem item);
 }

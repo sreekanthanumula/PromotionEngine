@@ -1,6 +1,7 @@
 package com.example.promotion;
 
 import com.example.promotion.entity.OrderItem;
+import org.springframework.stereotype.Component;
 
 public class BuyNItemsForFixedPricePromotion implements IPromotion {
     private final String productId;
@@ -14,7 +15,7 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
     }
 
     /**
-     * Todo provide the implementation
+     * API to validate the promotion is applicable to order item
      * @param item
      * @return
      */
@@ -24,18 +25,17 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
     }
 
     /**
-     * Todo provide the implementation
+     * API to apply the promotion to order item
      * @param item
-     * @return
      */
     @Override
-    public double apply(OrderItem item) {
-        double total = 0.0;
+    public void apply(OrderItem item) {
         if (isApplicable(item)) {
             int quotient = item.getQuantity() / minQuantity;
             int remainder = item.getQuantity() % minQuantity;
-            total = (quotient * fixedPrice) + (remainder * item.getProduct().getPrice());
+            double discount = item.getPrice() -
+                    ((quotient * fixedPrice) + (remainder * item.getProduct().getPrice()));
+            item.setDiscount(discount);
         }
-        return total;
     }
 }
