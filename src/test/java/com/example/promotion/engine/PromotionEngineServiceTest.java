@@ -75,5 +75,54 @@ public class PromotionEngineServiceTest {
         assertEquals(expectedTotal, actualTotal);
     }
 
+    // Tests with quantity and no promotions
+    @Test
+    public void buyProduct3ATest() {
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 3));
+
+        double expectedTotal = productA.getPrice() * 3;
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void buyProduct5ABTest() {
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 5));
+        order.addItem(new OrderItem(productB, 5));
+
+        double expectedTotal = (productA.getPrice() * 5) + (productB.getPrice());
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void buyProduct3B4CTest() {
+        Order order = new Order();
+        order.addItem(new OrderItem(productB));
+        order.addItem(new OrderItem(productC));
+
+        double expectedTotal = (productC.getPrice() * 4) + (3 * productB.getPrice());
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void buyProduct2A3B4CTest() {
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 2));
+        order.addItem(new OrderItem(productB, 3));
+        order.addItem(new OrderItem(productC, 4));
+
+
+        double expectedTotal = (productA.getPrice() * 2) + (productB.getPrice() * 3) + (productC.getPrice() * 4);
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
 
 }
