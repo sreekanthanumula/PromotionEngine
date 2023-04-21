@@ -93,7 +93,7 @@ public class PromotionEngineServiceTest {
         order.addItem(new OrderItem(productA, 5));
         order.addItem(new OrderItem(productB, 5));
 
-        double expectedTotal = (productA.getPrice() * 5) + (productB.getPrice());
+        double expectedTotal = (productA.getPrice() * 5) + (productB.getPrice() * 5);
         double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
@@ -102,8 +102,8 @@ public class PromotionEngineServiceTest {
     @Test
     public void buyProduct3B4CTest() {
         Order order = new Order();
-        order.addItem(new OrderItem(productB));
-        order.addItem(new OrderItem(productC));
+        order.addItem(new OrderItem(productB, 3));
+        order.addItem(new OrderItem(productC, 4));
 
         double expectedTotal = (productC.getPrice() * 4) + (3 * productB.getPrice());
         double actualTotal = service.apply(order);

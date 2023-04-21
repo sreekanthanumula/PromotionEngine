@@ -20,7 +20,7 @@ public class PromotionEngineService {
 
         double total = 0.0;
         for (OrderItem item : order.getItems()) {
-            total += item.getProduct().getPrice();
+            total += item.getProduct().getPrice() * item.getQuantity();
         }
         return total;
     }
