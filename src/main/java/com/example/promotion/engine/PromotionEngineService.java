@@ -1,5 +1,7 @@
 package com.example.promotion.engine;
 
+import com.example.promotion.entity.Order;
+import com.example.promotion.entity.OrderItem;
 import com.example.promotion.entity.Product;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +11,16 @@ import java.util.List;
 public class PromotionEngineService {
 
     /**
-     * @param products
+     * @param order
      * Basic implementation to calculate the total cost with no promotions
      * @return total cost after applying the promotions
      */
-    public double apply(List<Product> products) {
+    public double apply(Order order) {
+
+
         double total = 0.0;
-        for (Product product : products) {
-            total += product.getPrice();
+        for (OrderItem item : order.getItems()) {
+            total += item.getProduct().getPrice();
         }
         return total;
     }

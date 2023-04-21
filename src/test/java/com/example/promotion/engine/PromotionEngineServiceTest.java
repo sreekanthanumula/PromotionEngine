@@ -1,5 +1,7 @@
 package com.example.promotion.engine;
 
+import com.example.promotion.entity.Order;
+import com.example.promotion.entity.OrderItem;
 import com.example.promotion.entity.Product;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,48 +28,49 @@ public class PromotionEngineServiceTest {
     // Tests with no promotions
     @Test
     public void buyProductATest() {
-        List<Product> products = new ArrayList<>();
-        products.add(productA);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA));
 
         double expectedTotal = productA.getPrice();
-        double actualTotal = service.apply(products);
+        double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
     }
 
     @Test
     public void buyProductABTest() {
-        List<Product> products = new ArrayList<>();
-        products.add(productA);
-        products.add(productB);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA));
+        order.addItem(new OrderItem(productB));
 
         double expectedTotal = productA.getPrice() + productB.getPrice();
-        double actualTotal = service.apply(products);
+        double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
     }
 
     @Test
     public void buyProductBCTest() {
-        List<Product> products = new ArrayList<>();
-        products.add(productC);
-        products.add(productB);
+        Order order = new Order();
+        order.addItem(new OrderItem(productB));
+        order.addItem(new OrderItem(productC));
 
         double expectedTotal = productC.getPrice() + productB.getPrice();
-        double actualTotal = service.apply(products);
+        double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
     }
 
     @Test
     public void buyProductABCTest() {
-        List<Product> products = new ArrayList<>();
-        products.add(productA);
-        products.add(productB);
-        products.add(productC);
+        Order order = new Order();
+        order.addItem(new OrderItem(productA));
+        order.addItem(new OrderItem(productB));
+        order.addItem(new OrderItem(productC));
+
 
         double expectedTotal = productA.getPrice() + productB.getPrice() + productC.getPrice();
-        double actualTotal = service.apply(products);
+        double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
     }
