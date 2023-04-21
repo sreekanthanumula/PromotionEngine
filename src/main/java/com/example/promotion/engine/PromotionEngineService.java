@@ -9,11 +9,15 @@ import java.util.List;
 public class PromotionEngineService {
 
     /**
-     * Todo provide implementation to apply the the promotions
      * @param products
+     * Basic implementation to calculate the total cost with no promotions
      * @return total cost after applying the promotions
      */
     public double apply(List<Product> products) {
-        return 0.0;
+        double total = 0.0;
+        for (Product product : products) {
+            total += product.getPrice();
+        }
+        return total;
     }
 }
