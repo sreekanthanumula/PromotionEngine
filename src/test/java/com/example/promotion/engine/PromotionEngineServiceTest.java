@@ -1,6 +1,8 @@
 package com.example.promotion.engine;
 
 import com.example.promotion.BuyNItemsForFixedPricePromotion;
+import com.example.promotion.BuyTwoItemsForFixedPricePromotion;
+import com.example.promotion.BuyTwoItemsForFixedPricePromotionTest;
 import com.example.promotion.IPromotion;
 import com.example.promotion.entity.Order;
 import com.example.promotion.entity.OrderItem;
@@ -28,9 +30,11 @@ public class PromotionEngineServiceTest {
     final Product productB = new Product("B", 30.0);
     final Product productC = new Product("C", 20.0);
 
+    final Product productD = new Product("D", 15);
+
     @Before
     public void clearPromotions() {
-        service.setPromotion(null);
+        service.clear();
     }
 
     // Tests with no promotions
@@ -149,6 +153,62 @@ public class PromotionEngineServiceTest {
 
         assertEquals(expectedTotal, actualTotal);
 
+    }
+
+    @Test
+    public void scenarioATest() {
+        addAllPromotions();
+
+        Order order = new Order();
+        order.addItem(new OrderItem(productA ));
+        order.addItem(new OrderItem(productB ));
+        order.addItem(new OrderItem(productC ));
+
+        double expectedTotal = 100;
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void scenarioBTest() {
+        addAllPromotions();
+
+        Order order = new Order();
+        order.addItem(new OrderItem(productA,5 ));
+        order.addItem(new OrderItem(productB, 5 ));
+        order.addItem(new OrderItem(productC ));
+
+        double expectedTotal = 370;
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    @Test
+    public void scenarioCTest() {
+        addAllPromotions();
+
+        Order order = new Order();
+        order.addItem(new OrderItem(productA, 3 ));
+        order.addItem(new OrderItem(productB, 5 ));
+        order.addItem(new OrderItem(productC ));
+        order.addItem(new OrderItem(productD));
+
+        double expectedTotal = 100;
+        double actualTotal = service.apply(order);
+
+        assertEquals(expectedTotal, actualTotal);
+    }
+
+    private void addAllPromotions() {
+        IPromotion buy3Afor130 = new BuyNItemsForFixedPricePromotion("A", 3, 130);
+        IPromotion buy2Bfor45 = new BuyNItemsForFixedPricePromotion("B", 2, 45);
+        IPromotion buyCDfor30 =  new BuyTwoItemsForFixedPricePromotion("C", "D", 30);
+
+        service.addPromotion(buy3Afor130);
+        service.addPromotion(buy2Bfor45);
+        service.addPromotion(buyCDfor30);
     }
 
 }
