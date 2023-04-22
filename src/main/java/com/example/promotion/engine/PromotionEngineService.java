@@ -13,8 +13,6 @@ import java.util.Set;
 @Service
 public class PromotionEngineService {
 
-    private IPromotion promotion;
-
     private Set<IPromotion> promotions;
 
     public PromotionEngineService() {
@@ -26,15 +24,12 @@ public class PromotionEngineService {
      * @return total cost after applying the promotions
      */
     public double apply(Order order) {
-        if (promotion != null && promotion.isApplicable(order)) {
+        for(IPromotion promotion : promotions) {
             promotion.apply(order);
         }
         return order.getTotalPrice();
     }
 
-    public void setPromotion(IPromotion promotion) {
-        this.promotion = promotion;
-    }
 
     public void removePromotion(IPromotion promotion) {
         promotions.remove(promotion);

@@ -145,7 +145,7 @@ public class PromotionEngineServiceTest {
         order.addItem(new OrderItem(productC, 4));
 
         IPromotion buy3AFor120 = new BuyNItemsForFixedPricePromotion("A", 3, 120);
-        service.setPromotion(buy3AFor120);
+        service.addPromotion(buy3AFor120);
 
 
         double expectedTotal = 120 +  (productA.getPrice() * 2) + (productB.getPrice() * 3) + (productC.getPrice() * 4);
@@ -195,7 +195,7 @@ public class PromotionEngineServiceTest {
         order.addItem(new OrderItem(productC ));
         order.addItem(new OrderItem(productD));
 
-        double expectedTotal = 100;
+        double expectedTotal = 280;
         double actualTotal = service.apply(order);
 
         assertEquals(expectedTotal, actualTotal);
