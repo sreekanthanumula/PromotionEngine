@@ -6,6 +6,8 @@ public class OrderItem {
     private double price;
     private double discount = 0.0;
 
+    private boolean isPromotionApplied = false;
+
     public OrderItem(Product product, int quantity) {
         this.product = product;
         this.quantity = quantity;
@@ -44,6 +46,11 @@ public class OrderItem {
         this.product = product;
     }
 
+    public boolean isPromotionApplied() {
+        return isPromotionApplied;
+    }
 
-
+    public void setPromotionApplied(boolean promotionApplied) {
+        isPromotionApplied = promotionApplied;
+    }
 }

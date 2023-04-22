@@ -26,9 +26,9 @@ public class BuyTwoItemsForFixedPricePromotion implements IPromotion {
         int item1Count = 0;
         int item2Count = 0;
         for (OrderItem item : order.getItems()) {
-            if (item.getProduct().getId().equals(product1)) {
+            if (item.getProduct().getId().equals(product1) && !item.isPromotionApplied()) {
                 item1Count += item.getQuantity();
-            } else if (item.getProduct().getId().equals(product2)) {
+            } else if (item.getProduct().getId().equals(product2) && !item.isPromotionApplied()) {
                 item2Count += item.getQuantity();
             }
         }
@@ -63,7 +63,10 @@ public class BuyTwoItemsForFixedPricePromotion implements IPromotion {
             for (OrderItem item : order.getItems()) {
                 if (item.getProduct().getId().equals(product1) ||
                         item.getProduct().getId().equals(product2)) {
-                   item.setDiscount(totalDiscount/2);
+                    if (!item.isPromotionApplied()) {
+                        item.setDiscount(totalDiscount / 2);
+                        item.setPromotionApplied(true);
+                    }
                 }
             }
         }

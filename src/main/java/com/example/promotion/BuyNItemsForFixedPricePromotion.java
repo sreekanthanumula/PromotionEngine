@@ -23,7 +23,7 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
     @Override
     public boolean isApplicable(Order order) {
         for (OrderItem item : order.getItems()) {
-            if (item.getProduct().getId().equals(productId))
+            if (item.getProduct().getId().equals(productId) && !item.isPromotionApplied())
                 return true;
         }
         return false;
@@ -41,7 +41,10 @@ public class BuyNItemsForFixedPricePromotion implements IPromotion {
                 int remainder = item.getQuantity() % minQuantity;
                 double discount = item.getPrice() -
                         ((quotient * fixedPrice) + (remainder * item.getProduct().getPrice()));
-                item.setDiscount(discount);
+                if (!item.isPromotionApplied()) {
+                    item.setDiscount(discount);
+                    item.setPromotionApplied(true);
+                }
             }
         }
     }
